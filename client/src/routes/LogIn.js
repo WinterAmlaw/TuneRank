@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState , useContext} from 'react';
 import styled from 'styled-components';
-import AxiosUsers from '../apis/AxiosUsers';
 import AxiosApi from '../apis/AxiosApi';
+import {AuthContext} from '../context/AuthProvider'
 
 const LogIn = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+
+  const {login} = useContext(AuthContext)
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -16,9 +18,9 @@ const LogIn = () => {
         email: username,
         password: password,
       })
-      console.log(response);
-      // Redirect to homepage on successful login
-      // window.location.href = '/';
+      response.data.status === 'success' && login(response.data.data.token)
+      console.log(response.data.data.token);
+      window.location.href = '/';
     } catch (error) {
       setError(error.message);
     }
