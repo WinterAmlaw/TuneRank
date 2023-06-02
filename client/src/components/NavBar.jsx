@@ -1,13 +1,13 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 
 const Navbar = () => {
   const location = useLocation();
-  if (location.pathname === '/signup' || location.pathname === '/login') {
-    return null; 
-  }
+  // if (location.pathname === '/signup' || location.pathname === '/login') {
+  //   return null; 
+  // }
   return (
     <NavContainer>
       <Logo href="/">
@@ -18,8 +18,8 @@ const Navbar = () => {
         <SearchButton>Go</SearchButton>
       </SearchContainer>
       <RightContainer>
-        <NavItem to="/signup">Sign Up</NavItem>
-        <NavItem to="/login">Log In</NavItem>
+        <NavSignup to="/signup" isActive={() => ['/signup', '/signup/'].includes(location.pathname)}>Sign Up</NavSignup>
+        <NavLogin to="/login" isActive={() => location.pathname === '/login'}>Log In</NavLogin>
       </RightContainer>
     </NavContainer>
   );
@@ -157,7 +157,8 @@ const RightContainer = styled.div`
   }
 `;
 
-const NavItem = styled(Link)`
+
+const NavItem = styled(NavLink)`
   display: inline-block;
   padding: 10px 15px;
   margin: 0 5px;
@@ -170,6 +171,11 @@ const NavItem = styled(Link)`
     color: #f60;
   }
 
+  &.active {
+    color: #f60;
+    text-decoration: underline;
+  }
+
   @media (max-width: 992px) {
     padding: 10px;
     margin-right: 10px;    
@@ -179,4 +185,18 @@ const NavItem = styled(Link)`
     display: block;
     margin: 0;
   }
-}`;
+`;
+
+const NavSignup = styled(NavItem)`
+  &.active {
+    color: #f60;
+    text-decoration: underline;
+  }
+`;
+
+const NavLogin = styled(NavItem)`
+  &.active {
+    color: #f60;
+    text-decoration: underline;
+  }
+`;

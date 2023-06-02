@@ -1,9 +1,129 @@
-import React from 'react'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import AxiosUsers from '../apis/AxiosUsers';
+import AxiosApi from '../apis/AxiosApi';
 
 const LogIn = () => {
-  return (
-    <div>LogIn</div>
-  )
-}
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
 
-export default LogIn
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await AxiosApi.post( '/login', {
+        email: username,
+        password: password,
+      })
+      console.log(response);
+      // Redirect to homepage on successful login
+      // window.location.href = '/';
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  return (
+    <Wrapper>
+      <FormWrapper>
+        <Title>Log In</Title>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        <form onSubmit={handleSubmit}>
+          <div>
+            <Label htmlFor="username">Username</Label>
+            <Input
+              id="username"
+              type="text"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
+          </div>
+          <Button type="submit">Log In</Button>
+        </form>
+      </FormWrapper>
+    </Wrapper>
+  );
+};
+
+export default LogIn;
+
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f7f7;
+`;
+
+const FormWrapper = styled.div`
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  background-color: #fff;
+  max-width: 400px;
+  width: 100%;
+`;
+
+const Title = styled.h1`
+  margin-top: 0;
+  margin-bottom: 1rem;
+`;
+
+const Input = styled.input`
+  appearance: none;
+  background-color: #f2f2f2;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 12px;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const Label = styled.label`
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+`;
+
+const Button = styled.button`
+  appearance: none;
+  background-color: #f60;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 12px;
+  width: 100%;
+
+  &:hover {
+    background-color: #f90;
+  }
+
+  &:active {
+    background-color: #f00;
+  }
+`;
+
+const ErrorMessage = styled.p`
+  color: #f00;
+  font-size: 14px;
+  margin-top: 10px;
+`;
