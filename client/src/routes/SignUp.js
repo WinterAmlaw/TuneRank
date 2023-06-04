@@ -20,9 +20,17 @@ const SignUp = () => {
         email: email,
         password: password,
       })
-      response.data.status === 'success' && login(response.data.data.token)
-      console.log(response.data.data.token);
-      // window.location.href = '/';
+      const logInNewUser = await AxiosApi.post('/login', {
+        email: email,
+        password: password,
+      })
+      // console.log(logInNewUser.data.status === 'success')
+      // console.log(logInNewUser.data.data.token);
+
+      logInNewUser.data.status === 'success' && login(logInNewUser.data.data.token)
+      // console.log(logInNewUser.data);
+
+      window.location.href = '/';
     } catch (error) {
       setError(error.message);
     }

@@ -4,7 +4,7 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('auth_token') || null);
-
+  console.log(`new token: ${token}`);
   useEffect(() => {
     if (token) {
       localStorage.setItem('auth_token', token);
@@ -15,6 +15,7 @@ const AuthProvider = ({ children }) => {
 
   const login = (newToken) => {
     setToken(newToken);
+
   };
 
   const logout = () => {
