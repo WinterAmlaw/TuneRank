@@ -3,6 +3,7 @@ const db = require("../db");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { response } = require("express");
 
 const secretKey = crypto.randomBytes(32).toString("hex");
 console.log(secretKey);
@@ -16,6 +17,8 @@ async function login(req, res) {
     const results = await db.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
+    console.log('login triggerd');
+
     if (results.rows.length === 0) {
       return res.status(401).json({
         status: "error",
@@ -24,6 +27,7 @@ async function login(req, res) {
     }
 
     const user = results.rows[0];
+    console.log(user);
 
     // Check if the password matches the hashed password stored in the database
     const isPasswordMatch = await bcrypt.compare(
@@ -45,6 +49,7 @@ async function login(req, res) {
       status: "success",
       data: {
         token,
+        username: user.username,
       },
     });
   } catch (error) {

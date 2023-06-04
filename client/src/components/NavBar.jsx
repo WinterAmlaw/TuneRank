@@ -2,11 +2,13 @@ import React, {useContext} from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { AuthContext } from '../context/AuthProvider';
+import { UserContext } from '../context/UserProvider';
 
 
 const Navbar = () => {
   const location = useLocation();
   const { token, logout } = useContext(AuthContext);
+  const { username } = useContext(UserContext);
   console.log(token);
   return (
     <NavContainer>
@@ -18,11 +20,32 @@ const Navbar = () => {
         <SearchButton>Go</SearchButton>
       </SearchContainer>
       <RightContainer>
-      {token ?  <NavLogout to={'/'} onClick={() => logout()}>Logout</NavLogout>
+      {token ?  
+        <>
+        <UserLink to={'/profile'}>
+          {username && username}
+        </UserLink>
+        
+        <NavLogout
+          to={'/'}
+          onClick={() => logout()}>
+            Logout
+        </NavLogout>
+
+        </>
         : 
         <>
-        <NavSignup to="/signup" isActive={() => ['/signup', '/signup/'].includes(location.pathname)}>Sign Up</NavSignup>
-        <NavLogin to="/login" isActive={() => location.pathname === '/login'}>Log In</NavLogin>
+          <NavSignup 
+            to="/signup"
+            isActive={() => ['/signup', '/signup/'].includes(location.pathname)}>
+              Sign Up
+          </NavSignup>
+
+          <NavLogin
+            to="/login"
+            isActive={() => location.pathname === '/login'}>
+              Log In
+          </NavLogin>
         </>        
 
         }  
@@ -240,6 +263,13 @@ const NavLogin = styled(NavItem)`
 `;
 
 const NavLogout = styled(NavItem)`
+  &.active {
+    color: black;
+    text-decoration: none;
+  }
+`;
+
+const UserLink = styled(NavItem)`
   &.active {
     color: black;
     text-decoration: none;

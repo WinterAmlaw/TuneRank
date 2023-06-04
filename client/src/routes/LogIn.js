@@ -1,25 +1,31 @@
 import React, { useState , useContext} from 'react';
 import styled from 'styled-components';
 import AxiosApi from '../apis/AxiosApi';
-import {AuthContext} from '../context/AuthProvider'
+import { AuthContext } from '../context/AuthProvider';
+import { UserContext } from '../context/UserProvider';
 
 const LogIn = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const {login} = useContext(AuthContext)
+  const {login} = useContext(AuthContext);
+  const {provideUser} = useContext(UserContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       const response = await AxiosApi.post( '/login', {
-        email: username,
-        password: password,
+        email,
+        password,
       })
-      response.data.status === 'success' && login(response.data.data.token)
+      if(response.data.status === 'success'){
+        login(response.data.data.token)
+        provideUser(response.data.data.username)
+      } 
       console.log(response.data.data.token);
+
       window.location.href = '/';
     } catch (error) {
       setError(error.message);
@@ -33,12 +39,12 @@ const LogIn = () => {
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <form onSubmit={handleSubmit}>
           <div>
-            <Label htmlFor="username">Username</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
-              id="username"
+              id="email"
               type="text"
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
               required
             />
           </div>
