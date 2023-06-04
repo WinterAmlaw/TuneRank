@@ -34,7 +34,6 @@ const Navbar = () => {
 
 export default Navbar;
 
-// Styles
 const NavContainer = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -125,6 +124,9 @@ const SearchBar = styled.input`
     // border-color: #f60;
     // box-shadow: 0 0 0 0 #f60;
   }
+  &:hover {
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const SearchButton = styled.button`
@@ -175,7 +177,7 @@ const NavItem = styled(NavLink)`
   text-transform: uppercase;
 
   &:hover {
-    color: #f60;
+    // color: #f60;
   }
 
   &.active {
@@ -195,15 +197,44 @@ const NavItem = styled(NavLink)`
 `;
 
 const NavSignup = styled(NavItem)`
+  display: flex;
+  align-items: center;
+  background-color: #f60;
+  color: #fff;
+  border-radius: 30px;
+  padding: 10px 20px;
+  margin-right: 10px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #f90;
+  }
+
   &.active {
-    color: #f60;
+    color: #FFF;
     text-decoration: underline;
   }
 `;
 
 const NavLogin = styled(NavItem)`
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  color: #f60;
+  border: 2px solid #f60;
+  border-radius: 30px;
+  padding: 10px 20px;
+  margin-right: 10px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    border-color: #f90;
+    color: #f90;
+    // font-weight: bold;
+  }
+
   &.active {
-    color: #f60;
+    // color: #f60;
     text-decoration: underline;
   }
 `;
