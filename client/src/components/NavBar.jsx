@@ -1,55 +1,60 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { AuthContext } from '../context/AuthProvider';
 import { UserContext } from '../context/UserProvider';
 
-
 const Navbar = () => {
   const location = useLocation();
   const { token, logout } = useContext(AuthContext);
   const { username } = useContext(UserContext);
-  console.log(token);
+
   return (
     <NavContainer>
-      <Logo href="/">
-        <span>Tune</span>Rank
-      </Logo>
-      <SearchContainer>
-        <SearchBar type="text" placeholder="Search..." />
-        <SearchButton>Go</SearchButton>
-      </SearchContainer>
+      <LeftContainer>
+        <Logo href="/">
+          <span>Tune</span>Rank
+        </Logo>
+        <SearchContainer>
+          <SearchBar type="text" placeholder="Search..." />
+          <SearchButton>
+            <i class="bi bi-search"></i>
+          </SearchButton>
+        </SearchContainer>
+        <NavExplore
+          to="/explore"
+          isActive={() => location.pathname === '/explore'}
+        >
+          Explore
+        </NavExplore>
+      </LeftContainer>
       <RightContainer>
-      {token ?  
-        <>
-        <UserLink to={'/profile'}>
-          {username && username}
-        </UserLink>
-        
-        <NavLogout
-          to={'/'}
-          onClick={() => logout()}>
-            Logout
-        </NavLogout>
-
-        </>
-        : 
-        <>
-          <NavSignup 
-            to="/signup"
-            isActive={() => ['/signup', '/signup/'].includes(location.pathname)}>
+        {token ? (
+          <>
+            <UserLink to={'/profile'}>{username && username}</UserLink>
+            <NavLogout to={'/'} onClick={() => logout()}>
+              Logout
+            </NavLogout>
+          </>
+        ) : (
+          <>
+            <NavSignup
+              to="/signup"
+              isActive={() =>
+                ['/signup', '/signup/'].includes(location.pathname)
+              }
+            >
               Sign Up
-          </NavSignup>
+            </NavSignup>
 
-          <NavLogin
-            to="/login"
-            isActive={() => location.pathname === '/login'}>
+            <NavLogin
+              to="/login"
+              isActive={() => location.pathname === '/login'}
+            >
               Log In
-          </NavLogin>
-        </>        
-
-        }  
-
+            </NavLogin>
+          </>
+        )}
       </RightContainer>
     </NavContainer>
   );
@@ -70,9 +75,13 @@ const NavContainer = styled.nav`
   }
 
   @media (max-width: 768px) {
-    // flex-wrap: wrap-reverse;
     flex-direction: column;
   }
+`;
+
+const LeftContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Logo = styled.a`
@@ -98,21 +107,45 @@ const Logo = styled.a`
   }
 
   @media (max-width: 768px) {
-    // order: 3;
     margin-top: 10px;
     margin-bottom: 24px;
   }
 `;
 
-const SearchContainer = styled.div`
+const NavExplore = styled(NavLink)`
   display: inline-block;
   margin-left: 50px;
-  margin-right: auto;
+  padding: 10px 15px;
+  font-size: 18px;
+  color: #000;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #444;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #555;
+  }
+
+  &.active {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1200px) {
+    margin-left: 30px;
+  }
 
   @media (max-width: 992px) {
-    margin-left: 10px;
-    width: 50%;
+    display: none;
   }
+`;
+
+const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -162,12 +195,6 @@ const SearchButton = styled.button`
   border-radius: 0px 10px 10px 0px;
   cursor: pointer;
   margin-left: -2px;
-
-
-  @media (max-width: 768px) {
-    margin-bottom: 10px;
-  }
-
   &:hover {
     background-color: #f90;
   }
@@ -189,7 +216,6 @@ const RightContainer = styled.div`
   }
 `;
 
-
 const NavItem = styled(NavLink)`
   display: inline-block;
   padding: 10px 15px;
@@ -210,7 +236,7 @@ const NavItem = styled(NavLink)`
 
   @media (max-width: 992px) {
     padding: 10px;
-    margin-right: 10px;    
+    margin-right: 10px;
   }
 
   @media (max-width: 768px) {
@@ -234,7 +260,7 @@ const NavSignup = styled(NavItem)`
   }
 
   &.active {
-    color: #FFF;
+    color: #fff;
     text-decoration: underline;
   }
 `;
