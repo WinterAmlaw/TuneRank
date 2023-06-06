@@ -1,4 +1,21 @@
 const db = require("../db");
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './media/artists')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop())
+  }
+})
+
+const upload = multer({ 
+  storage: storage,
+  limits: { fileSize: 1024*1024*5 } // limit file size to 5mb
+}).single('cover_image'); // accepts file with name "cover_image"
+
 
 //Get all Artists
 async function getAllArtists(req, res) {
@@ -25,10 +42,18 @@ async function getArtistById(req, res) {
       req.params.id,
     ]);
 
+    const artist = results.rows[0];
+    
+    // Get full filepath of cover image
+    const imagePath = path.join(__dirname, '../media', artist.cover_image);
+
+    // Add filepath to artist object
+    artist.cover_image_path = imagePath;
+
     res.status(200).json({
       status: "success",
       data: {
-        artist: results.rows[0],
+        artist: artist,
       },
     });
   } catch (error) {
@@ -39,16 +64,26 @@ async function getArtistById(req, res) {
 // Post New Artist
 async function postNewArtist(req, res) {
   try {
-    const results = await db.query(
-      'INSERT INTO artists (name,genre,cover_image) values ($1,$2,$3) returning *', 
-      [req.body.name, req.body.genre, req.body.cover_image]
-    );
-    res.status(201).json({
-      status: "success",
-      data: {
-        artist: results.rows[0]
-      },
-    })
+    upload(req, res, async function(err) {
+      if (err) {
+        // Handle errors
+        console.log(err.message);
+        return res.status(400).json({ error: err.message });
+      }
+
+      // If file is uploaded successfully, continue with inserting the data into database
+      const results = await db.query(
+        'INSERT INTO artists (name,genre,cover_image) values ($1,$2,$3) returning *', 
+        [req.body.name, req.body.genre, req.file.filename]
+      );
+
+      res.status(201).json({
+        status: "success",
+        data: {
+          artist: results.rows[0]
+        },
+      })
+    });
   } catch (error) {
     console.log(error);
   }
