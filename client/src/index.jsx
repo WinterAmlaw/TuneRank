@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import AuthProvider from './context/AuthProvider';
 import UserProvider from './context/UserProvider';
+import MusicProvider from './context/MusicProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <UserProvider>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </UserProvider>
+    <MusicProvider>
+      <UserProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </UserProvider>
+    </MusicProvider>
   </React.StrictMode>
 );
 

@@ -10,7 +10,7 @@ async function getAllArtists(req, res) {
       status: "success",
       results: results.rows.length,
       data: {
-        users: results["rows"],
+        artists: results["rows"],
       },
     });
   } catch (error) {
@@ -28,7 +28,7 @@ async function getArtistById(req, res) {
     res.status(200).json({
       status: "success",
       data: {
-        user: results.rows[0],
+        artist: results.rows[0],
       },
     });
   } catch (error) {
