@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <NavContainer>
       <LeftContainer>
-        <Logo href="/">
+        <Logo to="/">
           <span>Tune</span>Rank
         </Logo>
         <SearchContainer>
@@ -84,7 +84,7 @@ const LeftContainer = styled.div`
   align-items: center;
 `;
 
-const Logo = styled.a`
+const Logo = styled(NavLink)`
   display: inline-flex;
   align-items: center;
   color: #000;

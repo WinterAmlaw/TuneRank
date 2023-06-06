@@ -21,8 +21,8 @@ const LogIn = () => {
         password,
       })
       if(response.data.status === 'success'){
-        login(response.data.data.token)
-        provideUser(response.data.data.username)
+        login(response.data.data.token);
+        provideUser(response.data.data.username);
       } 
       console.log(response.data.data.token);
 
