@@ -19,8 +19,15 @@ const Explore = () => {
   },[])
   return (
     <>
-    {artists.map(artist => 
-      artist.name
+    {artists.map((artist) => {
+      return (
+        <div className="">
+        <div>{artist.id}</div>
+        <div className="">{artist.name}</div>
+        </div>
+      )
+    }
+
       )}
     </>
     

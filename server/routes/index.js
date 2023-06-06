@@ -24,5 +24,10 @@ router.post('/artists', authMiddleware.authorizeUser, artistsController.postNewA
 router.get('/artists', artistsController.getAllArtists);
 //get by id
 router.get('/artists/:id', artistsController.getArtistById);
+//update by id 
+router.put('/artists/:id', authMiddleware.authorizeUser, artistsController.updateArtistById);
+//delete artist by id
+router.delete('/artists/:id', authMiddleware.authorizeUser, artistsController.deleteArtistById);
+
 
 module.exports = router;
