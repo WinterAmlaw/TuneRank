@@ -5,6 +5,7 @@ import Home from './routes/Home';
 import SignUp from './routes/SignUp';
 import Login from './routes/LogIn';
 import Explore from './routes/Explore';
+import FilterProvider from './context/FilterProvider';
 
 function App() {
   return (
@@ -17,7 +18,14 @@ function App() {
             <Route exact path='/' element={<Home/>}/>
             <Route exact path='/signup' element={<SignUp/>}/>
             <Route exact path='/login' element={<Login/>}/>    
-            <Route exact path='/explore' element={<Explore/>}/>    
+            <Route
+              exact path='/explore'
+              element=
+                {
+                  <FilterProvider>
+                    <Explore/>
+                  </FilterProvider>
+                }/>    
           </Routes>      
         </Router>     
     </div>

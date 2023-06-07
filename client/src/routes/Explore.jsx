@@ -1,41 +1,54 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import AxiosApi from '../apis/AxiosApi';
 import { MusicContext } from '../context/MusicProvider';
+import ArtistGrid from '../components/ArtistGrid';
+import FilterSection from '../components/FilterSection';
+
 
 const Explore = () => {
   const { artists, setArtists } = useContext(MusicContext);
-  const [coverImageUrl, setCoverImageUrl] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await AxiosApi.get(`/artists`);
         console.log(response.data.data.artists);
         setArtists(response.data.data.artists);
-        setCoverImageUrl(response.data.data.artists.coverImageUrl)
       } catch (error) {
         console.log(error);
       }
-    }
+    };
     fetchData();
-  },[])
-  return (
-    <>
-    {artists.map((artist) => {
-      return (
-        <div className="" key={artist.id}>
-        <div>{artist.id}</div>
-        <div className="">{artist.name}</div>
-        <div className="">{artist.genre}</div>
-        <img src={`${artist.image_url}`} alt="couldn't load image" />
-        </div>
-      )
-    }
+  }, []);
 
-      )}
-    </>
-    
-  )
+  const handleTypeChange = (event) => {
+    setSearchType(event.target.value);
+  };
+
+  return (
+    <ExploreContainer>
+      <FilterColumn>
+        <FilterSection handleTypeChange={handleTypeChange}/>
+      </FilterColumn>
+      <GridColumn>
+        <ArtistGrid artists={artists} />
+      </GridColumn>
+    </ExploreContainer>
+  );
 };
 
+const ExploreContainer = styled.div`
+  display: flex;
+`;
+
+const FilterColumn = styled.div`
+  flex: 1;
+`;
+
+const GridColumn = styled.div`
+  flex: 2;
+`;
+
 export default Explore;
+
