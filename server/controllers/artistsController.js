@@ -22,12 +22,16 @@ async function getAllArtists(req, res) {
   try {
     const results = await db.query("select * from artists");
 
-    // console.log(results)
+    const artistsWithImageUrls = results["rows"].map(artist => ({
+      ...artist,
+      image_url: `http://localhost:3009/media/artists/${artist.cover_image}`,
+    }));
+    console.log(artistsWithImageUrls)
     res.status(200).json({
       status: "success",
       results: results.rows.length,
       data: {
-        artists: results["rows"],
+        artists: artistsWithImageUrls,
       },
     });
   } catch (error) {
@@ -49,7 +53,7 @@ async function getArtistById(req, res) {
 
     // Add filepath to artist object
     artist.cover_image_path = imagePath;
-
+    console.log(imagePath);
     res.status(200).json({
       status: "success",
       data: {

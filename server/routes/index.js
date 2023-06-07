@@ -29,5 +29,7 @@ router.put('/artists/:id', authMiddleware.authorizeUser, artistsController.updat
 //delete artist by id
 router.delete('/artists/:id', authMiddleware.authorizeUser, artistsController.deleteArtistById);
 
+//STATIC ROUTES
+
 
 module.exports = router;
