@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
+import { FilterContext } from '../context/FilterProvider';
 
 
 const FilterSection = ({ handleTypeChange }) => {
-  const [genreFilters, setGenreFilters] = useState([]);
-  const [decadeFilters, setDecadeFilters] = useState([]);
+
+  const { genreFilters, setGenreFilters, decadeFilters, setDecadeFilters } = useContext(FilterContext)
 
   const genres = [
     "Rock",
@@ -19,18 +20,23 @@ const FilterSection = ({ handleTypeChange }) => {
   const decades = ["1960s", "1970s", "1980s", "1990s", "2000s", "2010s"];
 
   const handleGenreChange = (event) => {
+    const checkboxes = document.querySelectorAll("#genreCheckbox");
+    console.log(checkboxes);
+    checkboxes.forEach(checkbox => {
+      if(checkbox !== event.target) checkbox.checked = false;
+    })
     if (event.target.checked) {
-      setGenreFilters([...genreFilters, event.target.value]);
+      setGenreFilters(event.target.value);
     } else {
-      setGenreFilters(genreFilters.filter((filter) => filter !== event.target.value));
+      setGenreFilters(null);
     }
   };
 
   const handleDecadeChange = (event) => {
     if (event.target.checked) {
-      setDecadeFilters([...decadeFilters, event.target.value]);
+      setDecadeFilters(event.target.value);
     } else {
-      setDecadeFilters(decadeFilters.filter((filter) => filter !== event.target.value));
+      setDecadeFilters(null);
     }
   };
 
@@ -45,12 +51,13 @@ const FilterSection = ({ handleTypeChange }) => {
       </FilterSelect>
 
       <FilterLabel>Genres:</FilterLabel>
-      {genres.map((genre) => (
+      {genres && genres.map((genre) => (
         <CheckboxLabel key={`genre-${genre}`}>
           <StyledCheckbox
+            id="genreCheckbox"
             type="checkbox"
             value={genre}
-            checked={genreFilters.includes(genre)}
+            // checked={() => genreFilters.includes(genre)}
             onChange={handleGenreChange}
           />
           <Checkmark />
@@ -59,12 +66,12 @@ const FilterSection = ({ handleTypeChange }) => {
       ))}
 
       <FilterLabel>Decades:</FilterLabel>
-      {decades.map((decade) => (
+      {decades && decades.map((decade) => (
         <CheckboxLabel key={`decade-${decade}`}>
           <StyledCheckbox
             type="checkbox"
             value={decade}
-            checked={decadeFilters.includes(decade)}
+            // checked={() => decadeFilters.includes(decade)}
             onChange={handleDecadeChange}
           />
           <Checkmark />

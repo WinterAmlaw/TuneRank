@@ -4,10 +4,13 @@ import AxiosApi from '../apis/AxiosApi';
 import { MusicContext } from '../context/MusicProvider';
 import ArtistGrid from '../components/ArtistGrid';
 import FilterSection from '../components/FilterSection';
+import { FilterContext } from '../context/FilterProvider';
 
 
 const Explore = () => {
   const { artists, setArtists } = useContext(MusicContext);
+  const { genreFilters, decadeFilters } = useContext(FilterContext);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +24,13 @@ const Explore = () => {
     };
     fetchData();
   }, []);
-
+  console.log(artists.filter((artist) => artist.genre === genreFilters))
+  console.log(genreFilters);
+  let filteredArtists = artists;
+  if(genreFilters) {
+    filteredArtists = artists.filter((artist) => artist.genre === genreFilters)
+  }
+  
   const handleTypeChange = (event) => {
     setSearchType(event.target.value);
   };
@@ -32,7 +41,7 @@ const Explore = () => {
         <FilterSection handleTypeChange={handleTypeChange}/>
       </FilterColumn>
       <GridColumn>
-        <ArtistGrid artists={artists} />
+        <ArtistGrid artists={filteredArtists} />
       </GridColumn>
     </ExploreContainer>
   );

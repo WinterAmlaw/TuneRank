@@ -1,5 +1,21 @@
-import React from 'react';
+import React, { useState, useContext} from 'react';
 import styled from 'styled-components';
+
+
+const ArtistGrid = ({ artists }) => {
+  return (
+    <CardGrid>
+      {artists &&
+        artists.map((artist) => (
+          <CardLink key={artist.id} href={`/artist/${artist.id}`}>
+            <Image src={`${artist.image_url}`} alt="couldn't load image" />
+            <Title>{artist.name}</Title>
+            <Genre>{artist.genre}</Genre>
+          </CardLink>
+        ))}
+    </CardGrid>
+  );
+};
 
 const CardGrid = styled.div`
   display: grid;
@@ -38,20 +54,5 @@ const Genre = styled.p`
   font-size: 16px;
   margin: 10px 0;
 `;
-
-const ArtistGrid = ({ artists }) => {
-  return (
-    <CardGrid>
-      {artists &&
-        artists.map((artist) => (
-          <CardLink key={artist.id} href={`/artist/${artist.id}`}>
-            <Image src={`${artist.image_url}`} alt="couldn't load image" />
-            <Title>{artist.name}</Title>
-            <Genre>{artist.genre}</Genre>
-          </CardLink>
-        ))}
-    </CardGrid>
-  );
-};
 
 export default ArtistGrid;
