@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { FilterContext } from '../context/FilterProvider';
-
+import FilterDropdown from './FilterDropdown';
 
 const FilterSection = ({ handleTypeChange }) => {
   const [isGenresOpen, setIsGenresOpen] = useState(false);
@@ -58,21 +58,28 @@ const FilterSection = ({ handleTypeChange }) => {
 
       </FilterLabel>
       {isGenresOpen && genres && genres.map((genre) => (
-        <CheckBoxContainer>
+        // <CheckBoxContainer  key={`genre-${genre}`}>
   
-            <StyledCheckbox
-              id="genreCheckbox"
-              type="checkbox"
-              value={genre}
-              // checked={() => genreFilters.includes(genre)}
-              onChange={handleGenreChange}
-            />
-            <Checkmark />
-          <CheckboxLabel key={`genre-${genre}`}>
-            {genre}
-          </CheckboxLabel>            
-        </CheckBoxContainer>
-
+        //     <StyledCheckbox
+        //       id="genreCheckbox"
+        //       type="checkbox"
+        //       value={genre}
+        //       // checked={() => genreFilters.includes(genre)}
+        //       onChange={handleGenreChange}
+        //     />
+        //     <Checkmark />
+        //   <CheckboxLabel>
+        //     {genre}
+        //   </CheckboxLabel>            
+        // </CheckBoxContainer>
+        <FilterDropdown 
+          key={`genre-${genre}`}
+          value={genre}
+          // checked={() => genreFilters.includes(genre)}
+          onChange={handleGenreChange}
+          filterType='genre'
+        />
+        // value, checked, onChange, filterType, label
       ))}
 
       <FilterLabel>Decades:</FilterLabel>
