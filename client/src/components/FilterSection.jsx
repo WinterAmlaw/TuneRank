@@ -4,6 +4,8 @@ import { FilterContext } from '../context/FilterProvider';
 
 
 const FilterSection = ({ handleTypeChange }) => {
+  const [isGenresOpen, setIsGenresOpen] = useState(false);
+
 
   const { genreFilters, setGenreFilters, decadeFilters, setDecadeFilters } = useContext(FilterContext)
 
@@ -50,19 +52,27 @@ const FilterSection = ({ handleTypeChange }) => {
         <option value="song">Song</option>
       </FilterSelect>
 
-      <FilterLabel>Genres:</FilterLabel>
-      {genres && genres.map((genre) => (
-        <CheckboxLabel key={`genre-${genre}`}>
-          <StyledCheckbox
-            id="genreCheckbox"
-            type="checkbox"
-            value={genre}
-            // checked={() => genreFilters.includes(genre)}
-            onChange={handleGenreChange}
-          />
-          <Checkmark />
-          {genre}
-        </CheckboxLabel>
+      <FilterLabel onClick={() => setIsGenresOpen(!isGenresOpen)}>
+        Genres:
+        {isGenresOpen ? <ArrowIcon className="up-arrow" /> : <ArrowIcon />}
+
+      </FilterLabel>
+      {isGenresOpen && genres && genres.map((genre) => (
+        <CheckBoxContainer>
+  
+            <StyledCheckbox
+              id="genreCheckbox"
+              type="checkbox"
+              value={genre}
+              // checked={() => genreFilters.includes(genre)}
+              onChange={handleGenreChange}
+            />
+            <Checkmark />
+          <CheckboxLabel key={`genre-${genre}`}>
+            {genre}
+          </CheckboxLabel>            
+        </CheckBoxContainer>
+
       ))}
 
       <FilterLabel>Decades:</FilterLabel>
@@ -83,6 +93,20 @@ const FilterSection = ({ handleTypeChange }) => {
 };
 
 
+const ArrowIcon = styled.div`
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid white;
+  margin-left: 10px;
+  &.up-arrow {
+    transform: rotate(180deg);
+  }
+`;
+// #3C3CB2
+// #162447
+// #554D71
 const FilterContainer = styled.div`
   background-color:  #162447;
   padding: 20px;
@@ -97,9 +121,16 @@ const FilterHeading = styled.h3`
 `;
 
 const FilterLabel = styled.label`
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  background-color:#1D1A36;
   margin-bottom: 10px;
   color: white;
+  font-weight: bold;
 `;
 
 const FilterSelect = styled.select`
@@ -110,10 +141,18 @@ const FilterSelect = styled.select`
   font-size: 16px;
 `;
 
+const CheckBoxContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  margin-left: 10px;
+`;
+
 const CheckboxLabel = styled.label`
   display: block;
   font-size: 16px;
-  margin-bottom: 5px;
+  margin-left: 12px;
+  margin: auto 0px;
   color: white;
 `;
 
