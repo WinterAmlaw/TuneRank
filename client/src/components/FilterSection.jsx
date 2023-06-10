@@ -5,6 +5,7 @@ import FilterDropdown from './FilterDropdown';
 
 const FilterSection = ({ handleTypeChange }) => {
   const [isGenresOpen, setIsGenresOpen] = useState(false);
+  const [isDecadesOpen, setIsDecadesOpen] = useState(false);
 
 
   const { genreFilters, setGenreFilters, decadeFilters, setDecadeFilters } = useContext(FilterContext)
@@ -58,42 +59,26 @@ const FilterSection = ({ handleTypeChange }) => {
 
       </FilterLabel>
       {isGenresOpen && genres && genres.map((genre) => (
-        // <CheckBoxContainer  key={`genre-${genre}`}>
-  
-        //     <StyledCheckbox
-        //       id="genreCheckbox"
-        //       type="checkbox"
-        //       value={genre}
-        //       // checked={() => genreFilters.includes(genre)}
-        //       onChange={handleGenreChange}
-        //     />
-        //     <Checkmark />
-        //   <CheckboxLabel>
-        //     {genre}
-        //   </CheckboxLabel>            
-        // </CheckBoxContainer>
         <FilterDropdown 
           key={`genre-${genre}`}
           value={genre}
-          // checked={() => genreFilters.includes(genre)}
           onChange={handleGenreChange}
           filterType='genre'
         />
-        // value, checked, onChange, filterType, label
       ))}
 
-      <FilterLabel>Decades:</FilterLabel>
-      {decades && decades.map((decade) => (
-        <CheckboxLabel key={`decade-${decade}`}>
-          <StyledCheckbox
-            type="checkbox"
-            value={decade}
-            // checked={() => decadeFilters.includes(decade)}
-            onChange={handleDecadeChange}
-          />
-          <Checkmark />
-          {decade}
-        </CheckboxLabel>
+      <FilterLabel onClick={() => setIsDecadesOpen(!isDecadesOpen)}>
+        Decades:
+        {isDecadesOpen ? <ArrowIcon className="up-arrow" /> : <ArrowIcon />}
+
+      </FilterLabel>      
+      {isDecadesOpen && decades && decades.map((decade) => (
+        <FilterDropdown 
+          key={`decade-${decade}`}
+          value={decade}
+          onChange={handleDecadeChange}
+          filterType='decade'
+        />
       ))}
     </FilterContainer>
   );
@@ -148,44 +133,6 @@ const FilterSelect = styled.select`
   font-size: 16px;
 `;
 
-const CheckBoxContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 10px;
-  margin-left: 10px;
-`;
-
-const CheckboxLabel = styled.label`
-  display: block;
-  font-size: 16px;
-  margin-left: 12px;
-  margin: auto 0px;
-  color: white;
-`;
-
-const Checkmark = styled.span`
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  margin-right: 5px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-`;
-
-const StyledCheckbox = styled.input`
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  &:checked ~ ${Checkmark}::after {
-    content: '';
-    display: block;
-    width: 8px;
-    height: 8px;
-    margin: 5px auto;
-    border-radius: 50%;
-    background-color: #fff;
-  }
-`;
 
 
 export default FilterSection;
