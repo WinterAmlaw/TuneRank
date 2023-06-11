@@ -6,7 +6,7 @@ const FilterProvider = ({children}) => {
   const [searchType, setSearchType] = useState('artist');
   // const [genreFilters, setGenreFilters] = useState(null);
   // const [decadeFilters, setDecadeFilters] = useState(null);
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState({ genre:null, decade:null });
 
   return (
     <FilterContext.Provider

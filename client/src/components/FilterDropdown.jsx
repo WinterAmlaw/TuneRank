@@ -1,19 +1,39 @@
-import React from 'react'
+// import e from 'express';
+import React, { useContext } from 'react';
 import styled from "styled-components";
+import { FilterContext } from '../context/FilterProvider';
 
 const FilterDropdown = ({ value, checked, filterType }) => {
-
+  const { filter, setFilter } = useContext(FilterContext);  
+  console.log(filter);
   const handleFilterChange = (event) => {
     const checkboxes = document.querySelectorAll(`#${filterType}Checkbox`);
     console.log(checkboxes);
     checkboxes.forEach(checkbox => {
       if(checkbox !== event.target) checkbox.checked = false;
     })
-    if (event.target.checked) {
-      setGenreFilters(event.target.value);
-    } else {
-      setGenreFilters(null);
-    }
+    // if (event.target.checked) {
+    //   setGenreFilters(event.target.value);
+    // } else {
+    //   setGenreFilters(null);
+    // }
+    // if (event.target.checked) {
+    //   setFilter({event.target.value});
+    // } else {
+      switch (filterType) {
+        case 'genre':
+          // console.log(event.target.value);
+          setFilter({...filter, genre: event.target.checked ? event.target.value : null});
+          // console.log(filter.genre);
+          break;   
+        case 'decade':
+          setFilter({...filter, decade: event.target.checked ? event.target.value : null});
+          break;     
+        default:
+          console.log('Filter Dropdown error');
+          break;
+      }
+    // }
   };
 
   return (

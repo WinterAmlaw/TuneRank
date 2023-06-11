@@ -1,13 +1,16 @@
 import React, { useState, useContext} from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 
+
 const ArtistGrid = ({ artists }) => {
+  const navigate = useNavigate()
   return (
     <CardGrid>
       {artists &&
         artists.map((artist) => (
-          <CardLink key={artist.id} href={`/artist/${artist.id}`}>
+          <CardLink key={artist.id} onClick={()=> navigate(`/detail/artist/${artist.id}`)}>
             <Image src={`${artist.image_url}`} alt="couldn't load image" />
             <Title>{artist.name}</Title>
             <Genre>{artist.genre}</Genre>
@@ -21,6 +24,7 @@ const CardGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-gap: 20px;
+  cursor: pointer;
 `;
 
 const CardLink = styled.a`

@@ -9,7 +9,8 @@ import { FilterContext } from '../context/FilterProvider';
 
 const Explore = () => {
   const { artists, setArtists } = useContext(MusicContext);
-  const { genreFilters, decadeFilters } = useContext(FilterContext);
+  // const { genreFilters, decadeFilters } = useContext(FilterContext);
+  const { filter } = useContext(FilterContext);
 
 
   useEffect(() => {
@@ -24,11 +25,15 @@ const Explore = () => {
     };
     fetchData();
   }, []);
-  console.log(artists.filter((artist) => artist.genre === genreFilters))
-  console.log(genreFilters);
+  // console.log(artists.filter((artist) => artist.genre === genreFilters))
+  console.log(artists.filter((artist) => artist.genre === filter.genre))
+  // console.log(genreFilters);
   let filteredArtists = artists;
-  if(genreFilters) {
-    filteredArtists = artists.filter((artist) => artist.genre === genreFilters)
+  // if(genreFilters) {
+  //   filteredArtists = artists.filter((artist) => artist.genre === genreFilters)
+  // }
+  if(filter.genre) {
+    filteredArtists = artists.filter((artist) => artist.genre === filter.genre)
   }
   
   const handleTypeChange = (event) => {

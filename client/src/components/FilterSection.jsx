@@ -67,7 +67,7 @@ const FilterSection = ({ handleTypeChange }) => {
         <FilterDropdown 
           key={`genre-${genre}`}
           value={genre}
-          onChange={handleGenreChange}
+          // onChange={handleGenreChange}
           filterType='genre'
         />
       ))}

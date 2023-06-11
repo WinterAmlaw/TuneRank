@@ -6,6 +6,7 @@ import SignUp from './routes/SignUp';
 import Login from './routes/LogIn';
 import Explore from './routes/Explore';
 import FilterProvider from './context/FilterProvider';
+import Detail from './routes/Detail';
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
                   <FilterProvider>
                     <Explore/>
                   </FilterProvider>
-                }/>    
+                }/>
+            <Route exact path='/detail/:type/:id' element={<Detail/>}/>       
           </Routes>      
         </Router>     
     </div>
