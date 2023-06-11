@@ -4,14 +4,16 @@ import { FilterContext } from '../context/FilterProvider';
 import FilterDropdown from './FilterDropdown';
 
 const FilterSection = ({ handleTypeChange }) => {
-  const [isGenresOpen, setIsGenresOpen] = useState(false);
-  const [isDecadesOpen, setIsDecadesOpen] = useState(false);
+  // const [isGenresOpen, setIsGenresOpen] = useState(false);
+  // const [isDecadesOpen, setIsDecadesOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState({ genre: false, decade: false});
 
-
-  const { genreFilters, setGenreFilters, decadeFilters, setDecadeFilters } = useContext(FilterContext)
+  // const { genreFilters, setGenreFilters, decadeFilters, setDecadeFilters } = useContext(FilterContext)
+  const {filter, setFilter} = useContext(FilterContext);
 
   const genres = [
     "Rock",
+    "Metal",
     "Pop",
     "Hip-hop",
     "Electronic",
@@ -22,26 +24,26 @@ const FilterSection = ({ handleTypeChange }) => {
 
   const decades = ["1960s", "1970s", "1980s", "1990s", "2000s", "2010s"];
 
-  const handleGenreChange = (event) => {
-    const checkboxes = document.querySelectorAll("#genreCheckbox");
-    console.log(checkboxes);
-    checkboxes.forEach(checkbox => {
-      if(checkbox !== event.target) checkbox.checked = false;
-    })
-    if (event.target.checked) {
-      setGenreFilters(event.target.value);
-    } else {
-      setGenreFilters(null);
-    }
-  };
+  // const handleGenreChange = (event) => {
+  //   const checkboxes = document.querySelectorAll("#genreCheckbox");
+  //   console.log(checkboxes);
+  //   checkboxes.forEach(checkbox => {
+  //     if(checkbox !== event.target) checkbox.checked = false;
+  //   })
+  //   if (event.target.checked) {
+  //     setGenreFilters(event.target.value);
+  //   } else {
+  //     setGenreFilters(null);
+  //   }
+  // };
 
-  const handleDecadeChange = (event) => {
-    if (event.target.checked) {
-      setDecadeFilters(event.target.value);
-    } else {
-      setDecadeFilters(null);
-    }
-  };
+  // const handleDecadeChange = (event) => {
+  //   if (event.target.checked) {
+  //     setDecadeFilters(event.target.value);
+  //   } else {
+  //     setDecadeFilters(null);
+  //   }
+  // };
 
   return (
     <FilterContainer>
@@ -53,12 +55,15 @@ const FilterSection = ({ handleTypeChange }) => {
         <option value="song">Song</option>
       </FilterSelect>
 
-      <FilterLabel onClick={() => setIsGenresOpen(!isGenresOpen)}>
+      {/* <FilterLabel onClick={() => setIsGenresOpen(!isGenresOpen)}> */}
+      <FilterLabel onClick={() => setIsDropdownOpen({...isDropdownOpen, genre: !isDropdownOpen.genre})}>
         Genres:
-        {isGenresOpen ? <ArrowIcon className="up-arrow" /> : <ArrowIcon />}
+        {/* {isGenresOpen ? <ArrowIcon className="up-arrow" /> : <ArrowIcon />} */}
+        {isDropdownOpen.genre ? <ArrowIcon className="up-arrow" /> : <ArrowIcon />}
 
       </FilterLabel>
-      {isGenresOpen && genres && genres.map((genre) => (
+      {/* {isGenresOpen && genres && genres.map((genre) => ( */}
+      {isDropdownOpen.genre && genres && genres.map((genre) => (
         <FilterDropdown 
           key={`genre-${genre}`}
           value={genre}
@@ -67,7 +72,7 @@ const FilterSection = ({ handleTypeChange }) => {
         />
       ))}
 
-      <FilterLabel onClick={() => setIsDecadesOpen(!isDecadesOpen)}>
+      {/* <FilterLabel onClick={() => setIsDecadesOpen(!isDecadesOpen)}>
         Decades:
         {isDecadesOpen ? <ArrowIcon className="up-arrow" /> : <ArrowIcon />}
 
@@ -79,7 +84,7 @@ const FilterSection = ({ handleTypeChange }) => {
           onChange={handleDecadeChange}
           filterType='decade'
         />
-      ))}
+      ))} */}
     </FilterContainer>
   );
 };

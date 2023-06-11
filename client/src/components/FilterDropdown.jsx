@@ -1,7 +1,21 @@
 import React from 'react'
 import styled from "styled-components";
 
-const FilterDropdown = ({ value, checked, onChange, filterType }) => {
+const FilterDropdown = ({ value, checked, filterType }) => {
+
+  const handleFilterChange = (event) => {
+    const checkboxes = document.querySelectorAll(`#${filterType}Checkbox`);
+    console.log(checkboxes);
+    checkboxes.forEach(checkbox => {
+      if(checkbox !== event.target) checkbox.checked = false;
+    })
+    if (event.target.checked) {
+      setGenreFilters(event.target.value);
+    } else {
+      setGenreFilters(null);
+    }
+  };
+
   return (
     <CheckBoxContainer>
       <StyledCheckbox
@@ -9,7 +23,7 @@ const FilterDropdown = ({ value, checked, onChange, filterType }) => {
         type="checkbox"
         value={value}
         checked={checked}
-        onChange={onChange}
+        onChange={handleFilterChange}
       />
       <Checkmark />
       <CheckboxLabel htmlFor={`${filterType}-${value}`}>{value}</CheckboxLabel>
