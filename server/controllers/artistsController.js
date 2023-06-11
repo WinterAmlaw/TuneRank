@@ -47,13 +47,13 @@ async function getArtistById(req, res) {
     ]);
 
     const artist = results.rows[0];
-    
-    // Get full filepath of cover image
-    const imagePath = path.join(__dirname, '../media', artist.cover_image);
+    artist.image_url = `http://localhost:3009/media/artists/${artist.cover_image}`;
+    // // Get full filepath of cover image
+    // const imagePath = path.join(__dirname, '../media', artist.cover_image);
 
-    // Add filepath to artist object
-    artist.cover_image_path = imagePath;
-    console.log(imagePath);
+    // // Add filepath to artist object
+    // artist.cover_image_path = imagePath;
+    // console.log(imagePath);
     res.status(200).json({
       status: "success",
       data: {
