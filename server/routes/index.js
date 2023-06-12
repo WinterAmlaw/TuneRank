@@ -29,6 +29,18 @@ router.put('/artists/:id', authMiddleware.authorizeUser, artistsController.updat
 //delete artist by id
 router.delete('/artists/:id', authMiddleware.authorizeUser, artistsController.deleteArtistById);
 
+// ALBUM ROUTES
+//post album
+router.post('/albums', authMiddleware.authorizeUser, albumsController.postNewAlbums);
+//get all
+router.get('/albums', albumsController.getAllAlbums);
+//get by id
+router.get('/albums/:id', albumsController.getAlbumsById);
+//update by id 
+router.put('/albums/:id', authMiddleware.authorizeUser, albumsController.updateAlbumsById);
+//delete Albums by id
+router.delete('/albums/:id', authMiddleware.authorizeUser, albumsController.deleteAlbumsById);
+
 //STATIC ROUTES
 
 

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const Detail = () => {
   const { id, type } = useParams();
-  const [selectedContent, setSelectedContent] = useState(null);
+  const [ selectedContent, setSelectedContent ] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {

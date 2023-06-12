@@ -48,12 +48,7 @@ async function getArtistById(req, res) {
 
     const artist = results.rows[0];
     artist.image_url = `http://localhost:3009/media/artists/${artist.cover_image}`;
-    // // Get full filepath of cover image
-    // const imagePath = path.join(__dirname, '../media', artist.cover_image);
 
-    // // Add filepath to artist object
-    // artist.cover_image_path = imagePath;
-    // console.log(imagePath);
     res.status(200).json({
       status: "success",
       data: {
@@ -70,12 +65,10 @@ async function postNewArtist(req, res) {
   try {
     upload(req, res, async function(err) {
       if (err) {
-        // Handle errors
         console.log(err.message);
         return res.status(400).json({ error: err.message });
       }
 
-      // If file is uploaded successfully, continue with inserting the data into database
       const results = await db.query(
         'INSERT INTO artists (name,genre,cover_image) values ($1,$2,$3) returning *', 
         [req.body.name, req.body.genre, req.file.filename]
