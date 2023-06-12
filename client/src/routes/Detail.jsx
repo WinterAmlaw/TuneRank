@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import AxiosApi from '../apis/AxiosApi';
 import styled from 'styled-components';
 
 const Detail = () => {
+  const navigate = useNavigate();
   const { id, type } = useParams();
   const [ selectedContent, setSelectedContent ] = useState(null);
   const [ currentAlbums, setCurrentAlbums ] = useState(null);
+  const location = useLocation();
+  console.log(type);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,20 +21,35 @@ const Detail = () => {
       }
     };
     fetchData();
-  }, []);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [location]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await AxiosApi.get(`/albumsbyartist/${id}`)
-        console.log(response.data.data.albums_by_artist);
-        setCurrentAlbums(response.data.data.albums_by_artist)
+        switch (type) {
+          case 'artist':
+            const response = await AxiosApi.get(`/albumsbyartist/${id}`)
+            console.log(response.data.data.albums_by_artist);
+            setCurrentAlbums(response.data.data.albums_by_artist)            
+            break;
+        
+          default:
+            break;
+        }
+
       } catch (error) {
         console.log(error);
       }
     }
     fetchData();
   },[])
+
+
 
   return (
     <Wrapper>
@@ -40,7 +58,7 @@ const Detail = () => {
           <Header>
             <Image src={selectedContent.image_url} alt="" />
             <Details>
-              <Title>{selectedContent.name}</Title>
+              {type === 'artist' ? <Title>{selectedContent.name}</Title>:<Title>{selectedContent.title}</Title>}
               <Genre>{selectedContent.genre}</Genre>
             </Details>
           </Header>
@@ -86,7 +104,7 @@ const Detail = () => {
                 <AlbumCards>
                 {currentAlbums && currentAlbums.map((currentAlbum) => {
               return (
-                <AlbumCard key={currentAlbum.id}>
+                <AlbumCard key={currentAlbum.id} onClick={()=> navigate(`/detail/album/${currentAlbum.id}`)}>
                 <AlbumCardTitle>{currentAlbum.title}</AlbumCardTitle>
                 {currentAlbum.image_url && <AlbumCover src={currentAlbum.image_url} alt="" />}
                 <AlbumCardBody>
