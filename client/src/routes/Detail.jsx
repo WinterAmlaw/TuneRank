@@ -88,7 +88,7 @@ const Detail = () => {
               return (
                 <AlbumCard key={currentAlbum.id}>
                 <AlbumCardTitle>{currentAlbum.title}</AlbumCardTitle>
-                {currentAlbum.image_url && <img src={currentAlbum.image_url} alt="" />}
+                {currentAlbum.image_url && <AlbumCover src={currentAlbum.image_url} alt="" />}
                 <AlbumCardBody>
                   Lorem ipsum dolor sit amet consectetur, adipisicing
                   elit. Ex ipsam voluptas aut maiores perspiciatis omnis
@@ -148,6 +148,8 @@ const Image = styled.img`
   }
 `;
 
+
+
 const Details = styled.div``;
 
 const Title = styled.h1`
@@ -183,9 +185,9 @@ const Description = styled.p`
 `;
 
 const ContentContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 40px;
+  // display: grid;
+  // grid-template-columns: 1fr 1fr;
+  // grid-gap: 40px;
 
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -214,7 +216,7 @@ const ReviewCards = styled.div`
 const ReviewCard = styled.div`
   background-color: white;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;
   padding: 20px;
   width: calc((100% / 3) - 20px);
   margin-bottom: 20px;
@@ -264,17 +266,19 @@ const AlbumsHeading = styled.h3`
 `;
 
 const AlbumCards = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+grid-gap: 20px;
+cursor: pointer;
 `;
 
 const AlbumCard = styled.div`
   background-color: white;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;
   padding: 20px;
-  width: calc((100% / 3) - 20px);
+  // width: calc((100% / 2) );
+  // background: gray;
   margin-bottom: 20px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -305,3 +309,15 @@ const AlbumCardBody = styled.div`
   line-height: 1.5;
 
 }`;
+
+const AlbumCover = styled.img`
+  width: 100%;
+  height: 50%;
+  object-fit: cover;
+  border-radius: 10px;
+
+  @media screen and (max-width: 768px) {
+    border-radius: 0;
+    grid-row: 1 / 3;
+  }
+`;

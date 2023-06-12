@@ -16,16 +16,18 @@ app.use('/api/v1', routes);
 app.use(express.static(path.join(__dirname, '/media/artists')));
 // app.use('/media', express.static(path.join(__dirname, 'media')));
 
-app.get('/media/artists/:filename', (req, res) => {
+app.get('/media/:type/:filename', (req, res) => {
+  const type = req.params.type;
   const filename = req.params.filename;
-  console.log(`${__dirname}/media/artists/${filename}`)
-  res.sendFile(`${__dirname}/media/artists/${filename}`);
+  
+  // Assume that all media files are stored under the 'media' folder
+  const filePath = `${__dirname}/media/${type}/${filename}`;
+  
+  console.log(filePath);
+  
+  res.sendFile(filePath);
 });
-app.get('/media/albums/:filename', (req, res) => {
-  const filename = req.params.filename;
-  console.log(`${__dirname}/media/albums/${filename}`)
-  res.sendFile(`${__dirname}/media/albums/${filename}`);
-});
+
 // app.get('/explore/artists/:filename', )
 
 console.log(path.join(__dirname, '/media/artists'))
