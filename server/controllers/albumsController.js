@@ -1,4 +1,20 @@
 const db = require('../db')
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './media/artists')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop())
+  }
+})
+
+const upload = multer({ 
+  storage: storage,
+  limits: { fileSize: 1024*1024*5 } // limit file size to 5mb
+}).single('cover_image'); // accepts file with name "cover_image"
 
 
 //Get all Albums
@@ -23,6 +39,31 @@ async function getAllAlbums(req, res) {
   }
 }
 
+// Get all Albums By Artist
+async function getAllAlbumsByArtist(req, res) {
+  try {
+    const results = await db.query("select * from albums where artist_id = $1",[req.params.id]);
+    
+    console.log(results["rows"]);
+    const albumsWithImageUrls = results["rows"].map(album => ({
+      ...album,
+      image_url: `http://localhost:3009/media/albums/${album.cover_image}`,
+    }));
+
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        albums_by_artist: albumsWithImageUrls,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+
+}
+
 // Get individual Album
 async function getAlbumById(req, res) {
   try {
@@ -31,8 +72,8 @@ async function getAlbumById(req, res) {
     ]);
 
     const album = results.rows[0];
-    album.image_url = `http://localhost:3009/media/albums/${albums.cover_image}`;
-
+    album.image_url = `http://localhost:3009/media/albums/${album.cover_image}`;
+    console.log(album);
     res.status(200).json({
       status: "success",
       data: {
@@ -105,6 +146,7 @@ async function deleteAlbumById(req, res) {
 
 module.exports = {
   getAllAlbums,
+  getAllAlbumsByArtist,
   getAlbumById,
   postNewAlbum,
   updateAlbumById,

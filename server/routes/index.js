@@ -35,6 +35,8 @@ router.delete('/artists/:id', authMiddleware.authorizeUser, artistsController.de
 router.post('/albums', authMiddleware.authorizeUser, albumsController.postNewAlbum);
 //get all
 router.get('/albums', albumsController.getAllAlbums);
+//get all albums by artist
+router.get('/albumsbyartist/:id', albumsController.getAllAlbumsByArtist);
 //get by id
 router.get('/albums/:id', albumsController.getAlbumById);
 //update by id 

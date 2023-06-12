@@ -21,6 +21,11 @@ app.get('/media/artists/:filename', (req, res) => {
   console.log(`${__dirname}/media/artists/${filename}`)
   res.sendFile(`${__dirname}/media/artists/${filename}`);
 });
+app.get('/media/albums/:filename', (req, res) => {
+  const filename = req.params.filename;
+  console.log(`${__dirname}/media/albums/${filename}`)
+  res.sendFile(`${__dirname}/media/albums/${filename}`);
+});
 // app.get('/explore/artists/:filename', )
 
 console.log(path.join(__dirname, '/media/artists'))

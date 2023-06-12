@@ -6,6 +6,7 @@ import styled from 'styled-components';
 const Detail = () => {
   const { id, type } = useParams();
   const [ selectedContent, setSelectedContent ] = useState(null);
+  const [ currentAlbums, setCurrentAlbums ] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,6 +19,19 @@ const Detail = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await AxiosApi.get(`/albumsbyartist/${id}`)
+        console.log(response.data.data.albums_by_artist);
+        setCurrentAlbums(response.data.data.albums_by_artist)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  },[])
 
   return (
     <Wrapper>
@@ -70,33 +84,24 @@ const Detail = () => {
               <Albums>
                 <AlbumsHeading>Albums by {selectedContent.name}</AlbumsHeading>
                 <AlbumCards>
-                  <AlbumCard>
-                    <AlbumCardTitle>Album 1</AlbumCardTitle>
-                    <AlbumCardBody>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing
-                      elit. Ex ipsam voluptas aut maiores perspiciatis omnis
-                      velit voluptatibus tempore animi architecto?
-                    </AlbumCardBody>
-                  </AlbumCard>
-                  <AlbumCard>
-                    <AlbumCardTitle>Album 2</AlbumCardTitle>
-                    <AlbumCardBody>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing
-                      elit. Ex ipsam voluptas aut maiores perspiciatis omnis
-                      velit voluptatibus tempore animi architecto?
-                    </AlbumCardBody>
-                  </AlbumCard>
-                  <AlbumCard>
-                    <AlbumCardTitle>Album 3</AlbumCardTitle>
-                    <AlbumCardBody>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing
-                      elit. Ex ipsam voluptas aut maiores perspiciatis omnis
-                      velit voluptatibus tempore animi architecto?
-                    </AlbumCardBody>
-                  </AlbumCard>
+                {currentAlbums && currentAlbums.map((currentAlbum) => {
+              return (
+                <AlbumCard key={currentAlbum.id}>
+                <AlbumCardTitle>{currentAlbum.title}</AlbumCardTitle>
+                {currentAlbum.image_url && <img src={currentAlbum.image_url} alt="" />}
+                <AlbumCardBody>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing
+                  elit. Ex ipsam voluptas aut maiores perspiciatis omnis
+                  velit voluptatibus tempore animi architecto?
+                </AlbumCardBody>
+              </AlbumCard>
+              )
+              
+            })}
                 </AlbumCards>
               </Albums>
             </ContentContainer>
+
           </Body>
         </>
       )}
