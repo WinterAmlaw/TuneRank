@@ -65,16 +65,13 @@ const Detail = () => {
           <Header>
             <Image src={selectedContent.image_url} alt="" />
             <Details>
-              {type === 'artist' ? <Title>{selectedContent.name}</Title>:<Title>{selectedContent.title}</Title>}
+              {<Title>{selectedContent.name}</Title>}
               <Genre>{selectedContent.genre}</Genre>
             </Details>
           </Header>
           <Body>
             <Description>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab
-              necessitatibus hic modi dicta, reprehenderit iste ratione
-              expedita nesciunt vitae sunt esse sapiente. Iste adipisci
-              consequatur repudiandae, in possimus enim cumque.
+              {selectedContent.description}
             </Description>
             <ContentContainer>
               <Reviews>
@@ -107,7 +104,7 @@ const Detail = () => {
                 </ReviewCards>
               </Reviews>
               <Albums>
-                <AlbumsHeading>{type === 'artist' ? `Albums by ${selectedContent.name}` : `Other Albums by${selectedContent.title}`}</AlbumsHeading>
+                <AlbumsHeading>{type === 'artist' ? `Albums by ${selectedContent.name}` : `Other Albums by${selectedContent.name}`}</AlbumsHeading>
                 <AlbumCards>
                 {currentAlbums && currentAlbums.map((currentAlbum) => {
               return (
@@ -115,9 +112,7 @@ const Detail = () => {
                 <AlbumCardTitle>{currentAlbum.title}</AlbumCardTitle>
                 {currentAlbum.image_url && <AlbumCover src={currentAlbum.image_url} alt="" />}
                 <AlbumCardBody>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing
-                  elit. Ex ipsam voluptas aut maiores perspiciatis omnis
-                  velit voluptatibus tempore animi architecto?
+                  {currentAlbum.description}
                 </AlbumCardBody>
               </AlbumCard>
               )
