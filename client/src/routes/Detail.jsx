@@ -30,14 +30,21 @@ const Detail = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      let response; 
+
       try {
         switch (type) {
           case 'artist':
-            const response = await AxiosApi.get(`/albumsbyartist/${id}`)
-            console.log(response.data.data.albums_by_artist);
+            response = await AxiosApi.get(`/albumsbyartist/${id}`)
+            // console.log(response.data.data.albums_by_artist);
             setCurrentAlbums(response.data.data.albums_by_artist)            
             break;
-        
+          case 'album':
+            response = await AxiosApi.get(`/albumsbyartist/${selectedContent.artist_id}`)
+            setCurrentAlbums(response.data.data.albums_by_artist.filter((album) => {
+              return album.id !== selectedContent.id;
+            }));            
+            break;
           default:
             break;
         }
@@ -47,7 +54,7 @@ const Detail = () => {
       }
     }
     fetchData();
-  },[])
+  },[selectedContent])
 
 
 
@@ -100,7 +107,7 @@ const Detail = () => {
                 </ReviewCards>
               </Reviews>
               <Albums>
-                <AlbumsHeading>Albums by {selectedContent.name}</AlbumsHeading>
+                <AlbumsHeading>{type === 'artist' ? `Albums by ${selectedContent.name}` : `Other Albums by${selectedContent.title}`}</AlbumsHeading>
                 <AlbumCards>
                 {currentAlbums && currentAlbums.map((currentAlbum) => {
               return (
