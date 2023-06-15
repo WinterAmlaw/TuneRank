@@ -7,7 +7,7 @@ import { UserContext } from '../context/UserProvider';
 const Navbar = () => {
   const location = useLocation();
   const { token, logout } = useContext(AuthContext);
-  const { username } = useContext(UserContext);
+  const { username, userId } = useContext(UserContext);
 
   return (
     <NavContainer>
@@ -31,7 +31,7 @@ const Navbar = () => {
       <RightContainer>
         {token ? (
           <>
-            <UserLink to={'/profile'}>{username && username}</UserLink>
+            <UserLink to={`/profile/${userId}`}>{username && username}</UserLink>
             <NavLogout to={'/'} onClick={() => logout()}>
               Logout
             </NavLogout>

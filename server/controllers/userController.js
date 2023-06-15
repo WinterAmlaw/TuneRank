@@ -50,6 +50,7 @@ async function login(req, res) {
       data: {
         token,
         username: user.username,
+        user_id: user.id,
       },
     });
   } catch (error) {

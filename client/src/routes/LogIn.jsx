@@ -9,8 +9,8 @@ const LogIn = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const {login} = useContext(AuthContext);
-  const {provideUser} = useContext(UserContext);
+  const { login } = useContext(AuthContext);
+  const { provideUser } = useContext(UserContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,7 +22,8 @@ const LogIn = () => {
       })
       if(response.data.status === 'success'){
         login(response.data.data.token);
-        provideUser(response.data.data.username);
+        provideUser(response.data.data);
+        console.log(response.data);
       } 
       console.log(response.data.data.token);
 

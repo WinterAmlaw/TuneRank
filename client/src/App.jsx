@@ -7,6 +7,7 @@ import Login from './routes/LogIn';
 import Explore from './routes/Explore';
 import FilterProvider from './context/FilterProvider';
 import Detail from './routes/Detail';
+import Profile from './routes/Profile';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                   </FilterProvider>
                 }/>
             <Route exact path='/detail/:type/:id' element={<Detail/>}/>       
+            <Route exact path='/profile/:id' element={<Profile/>}/>       
           </Routes>      
         </Router>     
     </div>

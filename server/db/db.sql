@@ -15,7 +15,7 @@ CREATE TABLE  artists (
 
 CREATE TABLE albums (
   id SERIAL PRIMARY KEY,
-  title VARCHAR(200) NOT NULL,
+  name VARCHAR(200) NOT NULL,
   artist_id INTEGER NOT NULL REFERENCES artists(id),
   release_date DATE,
   genre VARCHAR(100),
@@ -25,7 +25,7 @@ CREATE TABLE albums (
 
 CREATE TABLE songs (
   id SERIAL PRIMARY KEY,
-  title VARCHAR(200) NOT NULL,
+  name VARCHAR(200) NOT NULL,
   track_number INTEGER NOT NULL,
   album_id INTEGER REFERENCES albums(id)
 );
@@ -68,13 +68,40 @@ SELECT * FROM songs WHERE album_id = <album_id>;
 SELECT * FROM song_ratings WHERE album_id = <album_id> AND song_id = <song_id>;
 
 
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(100) NOT NULL UNIQUE,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  password_hash CHAR(60) NOT NULL,
+  profile_picture VARCHAR(200)
+);
+
 CREATE TABLE profiles (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id),
-  artist_id INTEGER REFERENCES artists(id),
-  album_id INTEGER REFERENCES albums(id),
-  song_id INTEGER REFERENCES songs(id)
+  profile_image VARCHAR(200),
+  description TEXT
 );
+
+ALTER TABLE users ADD CONSTRAINT fk_profile_id FOREIGN KEY (profile_id) REFERENCES profiles(id) ON DELETE CASCADE;
+
+CREATE OR REPLACE FUNCTION create_profile()
+RETURNS TRIGGER AS $$
+BEGIN
+    RAISE NOTICE 'New user ID: %', NEW.id;
+    INSERT INTO profiles (id, user_id) VALUES (NEW.id, NEW.id);
+    RETURN NEW;
+END; $$
+LANGUAGE PLPGSQL;
+
+CREATE TRIGGER create_profile_trigger AFTER INSERT ON users
+FOR EACH ROW EXECUTE FUNCTION create_profile();
+
+
+-- To retrieve all of the artists, albums, songs, and reviews by a specific user, you will need to join across the appropriate tables by specifying the user_id column value.
+SELECT albums.* FROM albums
+  JOIN profiles ON albums.id = ANY(profiles.album_id)
+  WHERE profiles.user_id = $1;
 
 -- Insert a new artist and link it to the user's profile
 INSERT INTO artists (name, genre, cover_image)

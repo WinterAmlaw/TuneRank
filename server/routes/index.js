@@ -6,6 +6,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 const userController = require('../controllers/userController');
 const artistsController = require('../controllers/artistsController');
 const albumsController = require('../controllers/albumsController');
+const profileController = require('../controllers/profileController');
 
 
 // USER ROUTES
@@ -17,6 +18,16 @@ router.post('/signup', userController.signup);
 router.get('/users', authMiddleware.authenticateUser, userController.getAllUsers);
 //get by id
 router.get('/users/:id', authMiddleware.authenticateUser, authMiddleware.authorizeUser, userController.getUserById);
+
+// PROFILE ROUTES
+// get all profiles
+router.get('/profiles', profileController.getAllProfiles);
+// // get own profile
+// router.get('/profile', authMiddleware.authenticateUser, profileController.getOwnProfile);
+// // create or update profile
+// router.post('/profile', authMiddleware.authenticateUser, profileController.createOrUpdateProfile);
+// // get profile by username
+// router.get('/profile/:username', authMiddleware.authenticateUser, profileController.getProfileByUsername);
 
 // ARTIST ROUTES
 //post artist
