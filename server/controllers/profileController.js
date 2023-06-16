@@ -17,7 +17,24 @@ async function getAllProfiles(req, res) {
   }
 };
 
+async function getProfileById(req, res) {
+  try {
+    const result = await db.query('SELECT * FROM profiles where id = $1', [
+      req.params.id
+    ]);
+    console.log(result);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        profile: result.rows[0]
+      }
+    })
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
   getAllProfiles,
+  getProfileById,
 };

@@ -22,8 +22,8 @@ router.get('/users/:id', authMiddleware.authenticateUser, authMiddleware.authori
 // PROFILE ROUTES
 // get all profiles
 router.get('/profiles', profileController.getAllProfiles);
-// // get own profile
-// router.get('/profile', authMiddleware.authenticateUser, profileController.getOwnProfile);
+// get profile by id
+router.get('/profile/:id', profileController.getProfileById, profileController.getProfileById);
 // // create or update profile
 // router.post('/profile', authMiddleware.authenticateUser, profileController.createOrUpdateProfile);
 // // get profile by username
