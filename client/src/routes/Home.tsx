@@ -155,7 +155,7 @@ const SectionAlternate = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   background-color: #f5f5f5;
   padding: 100px 0;
   // margin: 0 auto;
@@ -278,7 +278,8 @@ const TestimonialAuthor = styled.span`
 const Footer = styled.footer`
   background-color: #111;
   color: #fff;
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   text-align: center;
   width: 100%;
   margin-top: auto;
