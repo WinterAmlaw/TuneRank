@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import Stars from '../components/ui/stars';
 
 const HomePage = () => {
   return (
     <HomeContainer>
+      <Stars stars={3.5} reviews={100} />
       <HeaderSection>
       <ContentContainer>
         <Title>TuneRank</Title>

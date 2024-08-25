@@ -15,7 +15,7 @@ import {
 import { 
   DropdownItem, 
   DropdownProps 
-} from '../../../interfaces/dropdown';
+} from '../../../interfaces/ui';
 
 const Dropdown = ({
   id,

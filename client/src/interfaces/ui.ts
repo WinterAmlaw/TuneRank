@@ -15,3 +15,8 @@ export interface DropdownProps {
   selectedId?: string;
   onSelect?: (id: string) => void;
 }
+
+export interface StarsProps {
+  stars: number;
+  reviews: number;
+};

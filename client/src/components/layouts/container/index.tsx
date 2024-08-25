@@ -35,7 +35,7 @@ export default Container;
 
 const StyledContainer = styled.div<ContainerProps>`
   ${ (props) => props.display && `display: ${ props.display };` }
-  max-width: ${ (props) => props.maxWidth };
+  ${ (props) => props.maxWidth && `max-width: ${ props.maxWidth };` }
   padding: ${ (props) => props.padding };
   margin: ${ (props) => props.margin };
 `;

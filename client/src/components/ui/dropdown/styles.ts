@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { GoChevronDown } from 'react-icons/go';
-import { DropdownProps } from '../../../interfaces/dropdown';
+import { DropdownProps } from '../../../interfaces/ui';
 
 export const DropdownContainer = styled.div`
   position: relative;
