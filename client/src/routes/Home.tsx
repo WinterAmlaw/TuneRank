@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Stars from '../components/ui/stars';
 
 const HomePage = () => {
-
   return (
     <HomeContainer>
       <HeaderSection>
