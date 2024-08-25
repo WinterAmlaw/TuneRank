@@ -7,6 +7,7 @@ const userController = require('../controllers/userController');
 const artistsController = require('../controllers/artistsController');
 const albumsController = require('../controllers/albumsController');
 const profileController = require('../controllers/profileController');
+const artistRatingsController = require('../controllers/artistRatingsController');
 
 
 // USER ROUTES
@@ -56,6 +57,16 @@ router.put('/albums/:id', authMiddleware.authorizeUser, albumsController.updateA
 router.delete('/albums/:id', authMiddleware.authorizeUser, albumsController.deleteAlbumById);
 
 //STATIC ROUTES
+
+// ARTIST RATING ROUTES
+// Post or update rating for an artist
+router.post('/artists/:id/rate', authMiddleware.authenticateUser, artistRatingsController.rateArtist);
+
+// Get the current user's rating for an artist
+router.get('/artists/:id/rating', authMiddleware.authenticateUser, artistRatingsController.getUserRatingForArtist);
+
+// Get the average rating for an artist
+router.get('/artists/:id/average-rating', artistRatingsController.getAverageRatingForArtist);
 
 
 module.exports = router;

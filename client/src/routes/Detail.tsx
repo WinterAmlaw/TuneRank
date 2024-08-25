@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import AxiosApi from '../apis/AxiosApi';
 import styled from 'styled-components';
+import Stars from '../components/ui/stars';
+
+
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -56,7 +59,13 @@ const Detail = () => {
     fetchData();
   },[selectedContent])
 
+  const handleRating = async (rating: number) => {
+    await AxiosApi.post(`/ratings/${selectedContent.id}`, { rating });
 
+    
+    
+    // console.log(rating);
+  };
 
   return (
     <Wrapper>
@@ -73,6 +82,7 @@ const Detail = () => {
             <Description>
               {selectedContent.description}
             </Description>
+            <Stars stars={3.5} reviews={100} onRatingChange={handleRating}/>
             <ContentContainer>
               <Reviews>
                 <ReviewHeading>Reviews</ReviewHeading>

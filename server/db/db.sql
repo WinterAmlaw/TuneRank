@@ -131,3 +131,13 @@ FROM profiles
 JOIN artists ON profiles.artist_id = artists.id
 JOIN users ON profiles.user_id = users.id
 WHERE artists.id = 1; -- replace with the ID of the artist you want to retrieve
+
+CREATE TABLE artist_ratings (
+  user_id INTEGER REFERENCES users(id),
+  artist_id INTEGER REFERENCES artists(id),
+  rating INT NOT NULL CHECK(rating >= 1 AND rating <= 5),
+  PRIMARY KEY(user_id, artist_id)
+);
+
+-- Optionally, you might want to store when the rating was made
+ALTER TABLE artist_ratings ADD COLUMN created_at TIMESTAMP DEFAULT NOW();
